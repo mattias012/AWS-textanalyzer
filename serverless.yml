@@ -1,0 +1,34 @@
+service: text-analyzer
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  profile: mattias-iam
+  region: eu-north-1
+  role: ${env:AWS_LAMBDA_ROLE_ARN}
+
+package:
+  individually: true
+
+functions:
+  wordCount:
+    handler: handler.wordCount
+    events:
+      - http:
+          path: word-count
+          method: post
+  wordList:
+    handler: handler.wordList
+    events:
+      - http:
+          path: word-list
+          method: post
+  summary:
+    handler: handler.summary
+    events:
+      - http:
+          path: summary
+          method: post
+
+plugins:
+  - serverless-dotenv-plugin
